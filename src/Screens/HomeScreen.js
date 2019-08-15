@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Monday from '../components/Schedule/Monday';
 import Tuesday from '../components/Schedule/Tuesday';
@@ -13,14 +13,6 @@ import RoomRates from '../components/Schedule/RoomRates';
 import Plans from '../components/Schedule/Plans';
 
 export default class HomeScreen extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({ tintColor }) => <Ionicons name='ios-home' size={25} />,
-    headerStyle: {
-      backgroundColor: 'blue'
-    }
-  };
-
   render() {
     return (
       <View style={styles.container}>
@@ -30,15 +22,17 @@ export default class HomeScreen extends Component {
           <RoomRates />
           <Divider style={{ backgroundColor: 'black' }} />
           <Plans />
-          <ScrollView horizontal={true}>
-            <Monday />
-            <Tuesday />
-            <Wednesday />
-            <Thursday />
-            <Friday />
-            <Saturday />
-            <Sunday />
-          </ScrollView>
+          <View>
+            <ScrollView horizontal={true}>
+              <Monday />
+              <Tuesday />
+              <Wednesday />
+              <Thursday />
+              <Friday />
+              <Saturday />
+              <Sunday />
+            </ScrollView>
+          </View>
         </ScrollView>
       </View>
     );
@@ -47,7 +41,8 @@ export default class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   monday: {
     top: 20,

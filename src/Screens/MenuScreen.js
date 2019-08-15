@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  ActivityIndicator,
-  Text,
-  Image
-} from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Button, Headline } from 'react-native-paper';
+import PopularFood from '../components/Menu/PopularFood';
+import PopularDrinks from '../components/Menu/PopularDrinks';
+import PopularBar from '../components/Menu/PopularBar';
 import { Ionicons } from '@expo/vector-icons';
 
 export default class MenuScreen extends Component {
@@ -20,7 +17,61 @@ export default class MenuScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> MenuScreen </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: 36,
+            justifyContent: 'space-evenly',
+            top: 10
+          }}
+        >
+          <Button
+            icon='local-dining'
+            mode='contained'
+            onPress={() => this.props.navigation.navigate('Food')}
+            style={{ backgroundColor: 'blue' }}
+          >
+            Food
+          </Button>
+          <Button
+            icon='local-cafe'
+            mode='contained'
+            onPress={() => this.props.navigation.navigate('Drinks')}
+            style={{ backgroundColor: 'blue' }}
+          >
+            Drinks
+          </Button>
+
+          <Button
+            icon='local-bar'
+            mode='contained'
+            onPress={() => this.props.navigation.navigate('Bar')}
+            style={{ backgroundColor: 'blue' }}
+          >
+            Bar
+          </Button>
+        </View>
+        <ScrollView>
+          <Headline style={{ paddingTop: 30, textAlign: 'center' }}>
+            Most Popular Food
+          </Headline>
+          <View />
+          <View style={{ top: 5 }}>
+            <PopularFood />
+          </View>
+          <Headline style={{ paddingTop: 10, textAlign: 'center' }}>
+            Most Popular Drinks
+          </Headline>
+          <View>
+            <PopularDrinks />
+          </View>
+          <Headline style={{ paddingTop: 10, textAlign: 'center' }}>
+            Most Popular Alcohol
+          </Headline>
+          <View>
+            <PopularBar />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -28,9 +79,7 @@ export default class MenuScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1
   }
 });
 
