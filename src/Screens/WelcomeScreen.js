@@ -1,40 +1,35 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, ImageBackground } from "react-native";
 import plush from "../../assets/plushoutline.png";
+import { Button } from "react-native-paper";
 
 export default class WelcomeScreen extends Component {
   render() {
     return (
-      <ImageBackground source={plush} style={styles.backgroundContainer} />
+      <View style={styles.container}>
+        <Button
+          icon="person"
+          mode="outlined"
+          onPress={() => this.props.navigation.navigate("Dashboard")}
+        >
+          Login
+        </Button>
+        <Button
+          icon="person"
+          mode="contained"
+          onPress={() => this.props.navigation.navigate("Dashboard")}
+        >
+          Sign Up
+        </Button>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  backgroundContainer: {
+  container: {
     flex: 1,
-    width: null,
-    height: null,
     justifyContent: "center",
     alignItems: "center"
   }
 });
-
-{
-  /* <View style={styles.loginButton}>
-          <Button
-            icon="person"
-            mode="outlined"
-            onPress={() => this.props.navigation.navigate("Dashboard")}
-          >
-            Login
-          </Button>
-          <Button
-            icon="person"
-            mode="contained"
-            onPress={() => this.props.navigation.navigate("Dashboard")}
-          >
-            Sign Up
-          </Button>
-        </View> */
-}

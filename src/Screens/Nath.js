@@ -1,17 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   StyleSheet,
-  View,
-  FlatList,
-  ActivityIndicator,
   Text,
-  Image
+  View,
+  TextInput,
+  SafeAreaView,
+  FlatList,
+  ActivityIndicator
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Searchbar } from "react-native-paper";
 import { Contacts } from "expo";
-
-export default class MenuScreen extends Component {
+export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -37,42 +35,57 @@ export default class MenuScreen extends Component {
     this.setState({ contacts: data, inMemoryContacts: data, isLoading: false });
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ isLoading: true });
     this.loadContacts();
   }
 
   renderItem = ({ item }) => (
     <View style={{ minHeight: 70, padding: 5 }}>
-      <Text>
-        {item.firstName}
+      <Text style={{ color: "#bada55", fontWeight: "bold", fontSize: 26 }}>
+        {item.firstName + " "}
         {item.lastName}
       </Text>
-      <Text>{item.PhoneNumbers[0].digits}</Text>
+      <Text style={{ color: "white", fontWeight: "bold" }}>
+        {item.phoneNumbers[0].digits}
+      </Text>
     </View>
   );
 
-  static navigationOptions = {
-    tabBarLabel: "Menu",
-    tabBarIcon: ({ tintColor, focused }) => (
-      <Ionicons name={focused ? "ios-book" : "ios-journal"} size={25} />
-    )
+  searchContacts = value => {
+    const filteredContacts = this.state.inMemoryContacts.filter(contact => {
+      let contactLowercase = (
+        contact.firstName +
+        " " +
+        contact.lastName
+      ).toLowerCase();
+
+      let searchTermLowercase = value.toLowerCase();
+
+      return contactLowercase.indexOf(searchTermLowercase) > -1;
+    });
+    this.setState({ contacts: filteredContacts });
   };
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Searchbar
-          placeholder="Search something delicious!"
+        <SafeAreaView style={{ backgroundColor: "#2f363c" }} />
+        <TextInput
+          placeholder="Search"
           placeholderTextColor="#dddddd"
           style={{
-            marginHorizontal: 20,
-            marginTop: 20,
+            backgroundColor: "#2f363c",
+            height: 50,
+            fontSize: 36,
+            padding: 10,
+            color: "white",
             borderBottomWidth: 0.5,
-            borderBottomColor: "black"
+            borderBottomColor: "#7d90a0"
           }}
+          onChangeText={value => this.searchContacts(value)}
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: "#2f363c" }}>
           {this.state.isLoading ? (
             <View
               style={{
@@ -81,7 +94,7 @@ export default class MenuScreen extends Component {
                 justifyContent: "center"
               }}
             >
-              <ActivityIndicator size="large" color="black" />
+              <ActivityIndicator size="large" color="#bad555" />
             </View>
           ) : null}
           <FlatList
@@ -89,12 +102,15 @@ export default class MenuScreen extends Component {
             renderItem={this.renderItem}
             keyExtractor={(item, index) => index.toString()}
             ListEmptyComponent={() => (
-              <View style={{ flex: 1, alignItems: "center", marginTop: 50 }}>
-                <Image
-                  style={{ height: 100, width: 100 }}
-                  source={require("../../assets/SadPanda.png")}
-                />
-                <Text> Sorry, this is not on the menu...</Text>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 50
+                }}
+              >
+                <Text style={{ color: "#bad555" }}>No Contacts Found</Text>
               </View>
             )}
           />
@@ -107,7 +123,8 @@ export default class MenuScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
